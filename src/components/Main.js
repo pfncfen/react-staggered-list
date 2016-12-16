@@ -1,23 +1,13 @@
-require('normalize.css');
-require('styles/App.css');
-
 import React from 'react';
 
-import {VelocityComponent } from 'velocity-react'
+import List from './List'
 
 class StaggeredList extends React.Component {
 
   constructor (props) {
     super(props);
     this.state = {
-      query: '',
-      list: [
-        { msg: 'Bruce Lee', show: 1 },
-        { msg: 'Jackie Chan', show: 1 },
-        { msg: 'Chuck Norris', show: 1 },
-        { msg: 'Jet Li', show: 1 },
-        { msg: 'Kung Fury', show: 1 }
-      ]
+      query: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -27,24 +17,28 @@ class StaggeredList extends React.Component {
   }
 
   render () {
-    let {query , list} = this.state;
-    list.forEach((i) => i.msg.toLowerCase().indexOf(query) > -1 ? i.show = 1 : i.show = 0)
-    console.log(list)
-    let listRender = list.map((i, index) => <VelocityComponent key={`component${index}`}
-                                                                       animation={ {opacity: i.show ,height: i.show?'20px':0} }
-                                                                       delay={150 * index} duration={500}>
-      <li>{i.msg}</li>
-    </VelocityComponent>)
+    let data = {
+      list: [
+        { msg: 'Bruce Lee' },
+        { msg: 'Jackie Chan' },
+        { msg: 'Chuck Norris' },
+        { msg: 'Jet Li' },
+        { msg: 'Kung Fury' }
+      ]
+    }
+    let {query } = this.state;
+
+    let dataLists = data.list.map((i, index) => <li key={i.msg}>{i.msg}</li>)
+    //let dataLists = data.list.map((i,index) => <div key={i.msg}> <span>名人名称：</span>{i.msg}</div>)
 
     return (
       <div>
-        <input onChange={this.handleInputChange} value={this.state.query}></input>
-        <ul>
-          {listRender}
-        </ul>
+        <input onChange={this.handleInputChange} value={query}></input>
+          <List query={query}>
+            {dataLists}
+          </List>
       </div>
     )
-
   }
 
 }
